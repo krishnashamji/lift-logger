@@ -1,51 +1,58 @@
-# Welcome to your Expo app 👋
+# 🏋️‍♂️ Lift Logger (v1)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Lift Logger** is a minimalist workout logging app built to help you track your strength training with ease. In its first version, the app allows you to create workouts, log exercises, and track your progress over time.
 
-## Get started
+## 🚀 Vision
 
-1. Install dependencies
+While v1 is focused on workout tracking, **Lift Logger** is designed to evolve into a **modular health platform**. The core idea is to let users **enable or disable "extensions"**—feature modules that add or remove functionality and navigation items—so they can tailor the app to fit their personal health journey.
 
-   ```bash
-   npm install
-   ```
+Think of it as a super app for health—fitness, nutrition, recovery, and more—built around your needs.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🔧 Features (v1)
 
-In the output, you'll find options to open the app in a
+- 📝 **Log Workouts** – Create and manage your strength training sessions
+- 🏃 **Select Exercises** – Choose from a list of exercises by muscle group
+- 📊 **Track Progress** – View weight and reps per set over time _(coming soon)_
+- 🔒 **Authentication** – Secure login and access to your workout history
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🧩 Planned Extensions
 
-## Get a fresh project
+In future versions, users will be able to toggle on/off features such as:
 
-When you're ready, run:
+- 🥗 Nutrition tracking
+- 🛌 Sleep & recovery logging
+- 🧠 Mental health journaling
+- 📅 Habit and goal tracking
+- 📈 Analytics and AI recommendations
+- ⚙️ Custom extension builder (advanced users/devs)
+
+---
+
+## 💡 Tech Stack
+
+- **Frontend**: React  
+- **Backend**: Node.js + Express  
+- **Database**: MongoDB  
+- **Authentication**: JWT  
+- _(Planning to integrate Prisma in future iterations)_
+
+---
+
+## 📦 Getting Started
 
 ```bash
-npm run reset-project
-```
+# Clone the repo
+git clone https://github.com/yourusername/lift-logger.git
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# Navigate into the folder
+cd lift-logger
 
-## Learn more
+# Install dependencies
+npm install
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# lift-logger
+# Run the dev server
+npm run dev

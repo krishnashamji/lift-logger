@@ -1,11 +1,16 @@
-import { Link } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
+import { router, useRouter } from 'expo-router';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 export default function HomeScreen() {
+  const router = useRouter()
+
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
-      {/* <Link href="/(home)/stats">Stats page</Link> */}
+      <Text>Nothing to see here. Yet.</Text>
+      <Text>Press this to create your first workout</Text>
+      <Button
+        title='Create workout' 
+        onPress={()=>router.push('/(tabs)/(home)/customise-workout')}/>
     </View>
   );
 }

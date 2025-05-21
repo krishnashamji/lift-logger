@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
 
-const ExerciseCard = (key, id, deleteCard) => {
+const ExerciseCard = ({ id, deleteCard }) => {
+
+    // UseStates
+    const [sets, setSets] = 
+
     const sets = [1, 2]; // dummy data for now
 
     return (
@@ -14,7 +18,7 @@ const ExerciseCard = (key, id, deleteCard) => {
                     placeholder="Type exercise name"
                     placeholderTextColor="#aaa"
                 />
-                <Button title="Delete" onPress={(key) => { }} />
+                <Button title="Delete" onPress={deleteCard} />
             </View>
 
             {/* Set Header */}
@@ -34,7 +38,7 @@ const ExerciseCard = (key, id, deleteCard) => {
                             placeholderTextColor="#aaa"
                         />
                     </View>
-                    <Button title="x" onPress={deleteCard} />
+                    <Button title="x" onPress={() => { }} />
                 </View>
             ))}
 
@@ -53,7 +57,7 @@ export default function HomeScreen() {
 
     // UseStates
     const [workouttitle, setWorkoutTitle] = useState('')
-    const [ExerciseCards, setExerciseCards] = useState([{ id: newId }, { id: newId }])
+    const [ExerciseCards, setExerciseCards] = useState([{ id: uuidv4() }, { id: uuidv4() }])
 
     // Handlers
     const handleAddExerciseCard = () => {

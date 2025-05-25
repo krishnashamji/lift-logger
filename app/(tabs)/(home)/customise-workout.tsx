@@ -2,12 +2,42 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
 
-const ExerciseCard = ({ id, deleteCard }) => {
+const ExerciseRow = ({ setId, setNum, deleteSet }) => {
+    const [targetReps, setTargetReps] = useState('')
+
+    return (
+        <View>
+            <View key={setId} style={styles.rowThree}>
+                <View style={styles.rowTwo}>
+                    <Text>{setNum}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="8-10"
+                        placeholderTextColor="#aaa"
+                        onChangeText={setTargetReps}
+                        value={targetReps}
+                    />
+                </View>
+                <Button title="x" onPress={() => deleteSet(setId)} />
+            </View>
+        </View>
+    )
+}
+
+const ExerciseCard = ({ cardId, deleteCard }) => {
 
     // UseStates
-    const [sets, setSets] = 
+    const [sets, setSets] = useState([{ id: uuidv4() }, { id: uuidv4() }])
+    const [exerciseName,setExerciseName] = useState('')
 
-    const sets = [1, 2]; // dummy data for now
+    // Handlers
+    const handleAddSet = () => {
+        return setSets([...sets, { id: uuidv4() }])
+    }
+    const handleDeleteSet = (id) => {
+        const updatedSets = sets.filter(set => set.id !== id)
+        return setSets(updatedSets)
+    }
 
     return (
         <View style={styles.card}>
@@ -17,6 +47,8 @@ const ExerciseCard = ({ id, deleteCard }) => {
                     style={styles.input}
                     placeholder="Type exercise name"
                     placeholderTextColor="#aaa"
+                    value={exerciseName}
+                    onChangeText={setExerciseName}
                 />
                 <Button title="Delete" onPress={deleteCard} />
             </View>
@@ -28,43 +60,37 @@ const ExerciseCard = ({ id, deleteCard }) => {
             </View>
 
             {/* Set Rows */}
-            {sets.map((setNum, idx) => (
-                <View key={idx} style={styles.rowThree}>
-                    <View style={styles.rowTwo}>
-                        <Text>{setNum}</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="e.g. 8-10"
-                            placeholderTextColor="#aaa"
-                        />
-                    </View>
-                    <Button title="x" onPress={() => { }} />
-                </View>
-            ))}
+            {sets.map((set, index) => {
+                return (
+                    <ExerciseRow
+                        key={set.id}
+                        setId={set.id}
+                        setNum={index + 1}
+                        deleteSet={() => handleDeleteSet(set.id)}
+                    />
+                );
+            })}
 
             {/* Add Set */}
-            <View style={styles.rowThree}>
-                <Button title="Add Set" onPress={() => { }} />
+            < View style={styles.rowThree} >
+                <Button title="Add Set" onPress={handleAddSet} />
             </View>
-        </View>
+        </View >
     );
 };
 
 export default function HomeScreen() {
 
-    // Helper Functions
-    const newId = uuidv4(); // Generate unique ID
-
     // UseStates
     const [workouttitle, setWorkoutTitle] = useState('')
-    const [ExerciseCards, setExerciseCards] = useState([{ id: uuidv4() }, { id: uuidv4() }])
+    const [exerciseCards, setExerciseCards] = useState([{ id: uuidv4() }, { id: uuidv4() }])
 
     // Handlers
     const handleAddExerciseCard = () => {
-        return setExerciseCards([...ExerciseCards, { id: newId }]);
+        return setExerciseCards([...exerciseCards, { id: uuidv4() }]);
     }
     const handleDeleteExerciseCard = (id) => {
-        const updatedCards = ExerciseCards.filter(card => card.id !== id)
+        const updatedCards = exerciseCards.filter(card => card.id !== id)
         setExerciseCards(updatedCards)
     }
 
@@ -78,8 +104,11 @@ export default function HomeScreen() {
                 onChangeText={setWorkoutTitle}
             // keyboardType=''
             />
-            {ExerciseCards.map((card) => {
-                return <ExerciseCard key={card.id} id={card.id} deleteCard={() => handleDeleteExerciseCard(card.id)} />
+            {exerciseCards.map((card) => {
+                return <ExerciseCard
+                    key={card.id} 
+                    cardId={card.id} 
+                    deleteCard={() => handleDeleteExerciseCard(card.id)} />
             })}
 
             <Button title='Add Exercise' onPress={handleAddExerciseCard} />

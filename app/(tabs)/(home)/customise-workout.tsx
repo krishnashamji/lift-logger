@@ -2,33 +2,32 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
 
-const ExerciseRow = ({ setId, setNum, deleteSet }) => {
-    const [targetReps, setTargetReps] = useState('')
-
+const ExerciseRow = ({ setId, setNum, targetReps, onChangeTargetReps, deleteSet }) => {
     return (
-        <View>
-            <View key={setId} style={styles.rowThree}>
-                <View style={styles.rowTwo}>
-                    <Text>{setNum}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="8-10"
-                        placeholderTextColor="#aaa"
-                        onChangeText={setTargetReps}
-                        value={targetReps}
-                    />
-                </View>
-                <Button title="x" onPress={() => deleteSet(setId)} />
+        <View style={styles.rowThree}>
+            <View style={styles.rowTwo}>
+                <Text>{setNum}</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="8-10"
+                    placeholderTextColor="#aaa"
+                    onChangeText={onChangeTargetReps}
+                    value={targetReps}
+                    keyboardType="numeric"
+                />
             </View>
+            <Button title="x" onPress={() => deleteSet(setId)} />
         </View>
     )
 }
 
-const ExerciseCard = ({ cardId, deleteCard }) => {
+const ExerciseCard = ({ cardId, exerciseName, onChangeExerciseName, deleteCard }) => {
 
     // UseStates
-    const [sets, setSets] = useState([{ id: uuidv4() }, { id: uuidv4() }])
-    const [exerciseName,setExerciseName] = useState('')
+    const [sets, setSets] = useState([
+        { id: uuidv4(), targetReps: '' },
+        { id: uuidv4(), targetReps: '' }
+    ]);
 
     // Handlers
     const handleAddSet = () => {
@@ -38,6 +37,12 @@ const ExerciseCard = ({ cardId, deleteCard }) => {
         const updatedSets = sets.filter(set => set.id !== id)
         return setSets(updatedSets)
     }
+    const handleTargetRepsChange = (id, reps) => {
+        const updatedSets = sets.map(set =>
+            set.id === id ? { ...set, targetReps: reps } : set
+        );
+        setSets(updatedSets);
+    };
 
     return (
         <View style={styles.card}>
@@ -48,7 +53,8 @@ const ExerciseCard = ({ cardId, deleteCard }) => {
                     placeholder="Type exercise name"
                     placeholderTextColor="#aaa"
                     value={exerciseName}
-                    onChangeText={setExerciseName}
+                    onChangeText={onChangeExerciseName}
+                    keyboardType="default"
                 />
                 <Button title="Delete" onPress={deleteCard} />
             </View>
@@ -66,6 +72,8 @@ const ExerciseCard = ({ cardId, deleteCard }) => {
                         key={set.id}
                         setId={set.id}
                         setNum={index + 1}
+                        targetReps={set.targetReps}
+                        onChangeTargetReps={(reps) => handleTargetRepsChange(set.id, reps)}
                         deleteSet={() => handleDeleteSet(set.id)}
                     />
                 );
@@ -83,7 +91,10 @@ export default function HomeScreen() {
 
     // UseStates
     const [workouttitle, setWorkoutTitle] = useState('')
-    const [exerciseCards, setExerciseCards] = useState([{ id: uuidv4() }, { id: uuidv4() }])
+    const [exerciseCards, setExerciseCards] = useState([
+        { id: uuidv4(), exerciseName: '' },
+        { id: uuidv4(), exerciseName: '' }
+    ])
 
     // Handlers
     const handleAddExerciseCard = () => {
@@ -93,6 +104,12 @@ export default function HomeScreen() {
         const updatedCards = exerciseCards.filter(card => card.id !== id)
         setExerciseCards(updatedCards)
     }
+    const updateExerciseName = (id, name) => {
+        const updatedExerciseName = exerciseCards.map(card => 
+            card.id === id ? {...card, exerciseName: name } : card
+        )
+            setExerciseCards(updatedExerciseName)
+    } 
 
     return (
         <View style={styles.container}>
@@ -102,13 +119,15 @@ export default function HomeScreen() {
                 style={styles.input}
                 value={workouttitle}
                 onChangeText={setWorkoutTitle}
-            // keyboardType=''
+                keyboardType="default"
             />
             {exerciseCards.map((card) => {
                 return <ExerciseCard
-                    key={card.id} 
-                    cardId={card.id} 
-                    deleteCard={() => handleDeleteExerciseCard(card.id)} />
+                    key={card.id}
+                    cardId={card.id}
+                    exerciseName={card.exerciseName}
+                    onChangeExerciseName={(name) => updateExerciseName(card.id, name)}
+                    deleteCard={handleDeleteExerciseCard} />
             })}
 
             <Button title='Add Exercise' onPress={handleAddExerciseCard} />
